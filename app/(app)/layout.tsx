@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { auth } from "@/lib/auth"
+import { AppShell } from "@/components/shell/app-shell"
 
 export default async function AppLayout({
   children,
@@ -15,5 +16,5 @@ export default async function AppLayout({
     redirect("/")
   }
 
-  return <>{children}</>
+  return <AppShell>{children}</AppShell>
 }

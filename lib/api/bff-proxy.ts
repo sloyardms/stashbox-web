@@ -1,0 +1,42 @@
+import { NextRequest } from "next/server"
+import { requireAccessToken } from "./bff-auth"
+
+const BACKEND_URL = process.env.BACKEND_URL
+
+interface ProxyOptions {
+  method?: string
+  body?: unknown
+  searchParams?: URLSearchParams
+}
+
+export async function proxyToBackend(
+  req: NextRequest,
+  path: string,
+  { method = "GET", body, searchParams }: ProxyOptions = {},
+) {
+  const { accessToken, error } = await requireAccessToken(req)
+  if (error) return error
+
+  const qs = searchParams?.toString()
+  const url = `${BACKEND_URL}${path}${qs ? `?${qs}` : ""}`
+
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      ...(body ? { "Content-Type": "application/json" } : {}),
+    },
+    ...(body ? { body: JSON.stringify(body) } : {}),
+    cache: "no-store",
+  })
+
+  if (response.status === 401) {
+    return Response.json({ error: "Session expired" }, { status: 401 })
+  }
+  if (!response.ok) {
+    return Response.json({ error: `Request failed` }, { status: response.status })
+  }
+  if (response.status === 204) return new Response(null, { status: 204 })
+
+  return Response.json(await response.json())
+}
