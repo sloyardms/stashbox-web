@@ -11,6 +11,7 @@ export interface ItemGroup {
   settings: ItemGroupSettings
   createdAt: string
   updatedAt: string
+  itemCount: number
 }
 
 export interface ItemGroupSettings {

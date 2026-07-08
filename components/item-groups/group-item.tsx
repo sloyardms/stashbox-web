@@ -37,7 +37,7 @@ export function GroupItem({ group, active, onSelect }: GroupItemProps) {
       onClick={onSelect}
     >
       <Icon className="text-muted-foreground mr-2 h-4 w-4 shrink-0" />
-      <span className="flex-1 truncate">{group.name}</span>
+      <span className="flex-1 truncate">{group.name} ({group.itemCount})</span>
 
       <DropdownMenu>
         <DropdownMenuTrigger
