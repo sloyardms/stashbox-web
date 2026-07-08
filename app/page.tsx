@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/card"
 
 import { Link2, ImageIcon, FileText, Tags } from "lucide-react"
-import { Feature } from "@/components/landing/feature"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
@@ -36,7 +35,7 @@ export default function Home() {
     setIsLoading(true)
 
     await authClient.signIn.oauth2({
-      providerId: "keycloak-signup",
+      providerId: "keycloak",
       callbackURL: "/stashbox",
       errorCallbackURL: "/error-page",
       newUserCallbackURL: "/stashbox",
@@ -99,5 +98,14 @@ export default function Home() {
         </CardContent>
       </Card>
     </main>
+  )
+}
+
+function Feature({ icon, text }: { icon: ReactNode; text: string }) {
+  return (
+    <div className="bg-muted/40 flex items-center gap-2 rounded-lg border p-3">
+      <div className="text-primary">{icon}</div>
+      <span>{text}</span>
+    </div>
   )
 }

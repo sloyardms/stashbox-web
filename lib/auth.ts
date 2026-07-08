@@ -6,23 +6,12 @@ export const auth = betterAuth({
     genericOAuth({
       config: [
         keycloak({
-          clientId: process.env.KEYCLOAK_CLIENT_ID!,
+          clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID!,
           clientSecret: "public-client-no-secret-required",
-          issuer: process.env.KEYCLOAK_ISSUER!,
+          issuer: process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER!,
           scopes: ["openid", "profile", "email"],
           pkce: true,
         }),
-        {
-          providerId: "keycloak-signup",
-          clientId: process.env.KEYCLOAK_CLIENT_ID!,
-          clientSecret: "public-client-no-secret-required",
-          authorizationUrl: `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/registrations`,
-          tokenUrl: `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/token`,
-          userInfoUrl: `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/userinfo`,
-          issuer: process.env.KEYCLOAK_ISSUER!,
-          scopes: ["openid", "profile", "email"],
-          pkce: true,
-        },
       ],
     }),
   ],
