@@ -1,12 +1,18 @@
 "use client"
 
+import { useStashboxStore } from "@/lib/stashbox-store"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
+
 export default function StashboxPage() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold">Stashbox</h1>
-      <p className="text-muted-foreground mt-4 text-lg">
-        This is the Stashbox page.
-      </p>
-    </div>
-  )
+  const router = useRouter()
+  const selectedGroup = useStashboxStore((s) => s.selectedGroup)
+
+  useEffect(() => {
+    if (selectedGroup) {
+      router.replace(`/stashbox/groups/${selectedGroup.id}`)
+    }
+  }, [selectedGroup, router])
+
+  return null
 }

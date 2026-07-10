@@ -1,13 +1,13 @@
-// hooks/shared/useEntityCollection.ts
-import useSWR from "swr"
+import useSWR, { SWRConfiguration } from "swr"
 import { fetcher, ApiError } from "@/lib/fetcher"
 import type { Page } from "@/types/common/Page"
 
-interface UseEntityCollectionParams {
-  endpoint: string
-  page?: number
-  size?: number
-  sort?: string
+interface UseEntityCollectionParams<T> {
+  endpoint: string;
+  page?: number;
+  size?: number;
+  sort?: string;
+  swr?: SWRConfiguration<Page<T>, ApiError>;
 }
 
 export function useEntityCollection<T>({
@@ -15,14 +15,20 @@ export function useEntityCollection<T>({
   page = 0,
   size = 20,
   sort,
-}: UseEntityCollectionParams) {
-  const params = new URLSearchParams({ page: String(page), size: String(size) })
-  if (sort) params.set("sort", sort)
+  swr,
+}: UseEntityCollectionParams<T>) {
+  const params = new URLSearchParams({
+    page: String(page),
+    size: String(size),
+  });
+
+  if (sort) params.set("sort", sort);
 
   const { data, error, isLoading, mutate } = useSWR<Page<T>, ApiError>(
     `${endpoint}?${params.toString()}`,
     fetcher,
-  )
+    swr
+  );
 
   return {
     items: data?.content ?? [],

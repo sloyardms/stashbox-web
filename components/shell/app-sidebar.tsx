@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import {
   DndContext,
   closestCenter,
@@ -20,8 +21,11 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useItemGroups } from "@/hooks/useItemGroups"
 import { useStashboxStore } from "@/lib/stashbox-store"
 import { SortableGroupItem } from "@/components/item-groups/sortable-group-item"
+import { routes } from "@/lib/routes"
 
 export function AppSidebar() {
+  const router = useRouter()
+
   const { itemGroups, error, isLoading, reorderItemGroups } = useItemGroups({
     page: 0,
     size: 20,
@@ -33,7 +37,7 @@ export function AppSidebar() {
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
   )
 
-  async function handleDragEnd(event: DragEndEvent) {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
     if (!over || active.id === over.id) return
 
@@ -44,10 +48,22 @@ export function AppSidebar() {
     await reorderItemGroups(reordered.map((g) => g.id))
   }
 
+  const handleAddClick = () => {
+    router.push(routes.groups.new)
+  }
+
+  const handleTrashbinClick = () => {
+    router.push(routes.trashbin)
+  }
+
   return (
-    <aside className="flex h-full w-64 shrink-0 flex-col border-r">
+    <aside className="flex h-full w-72 shrink-0 flex-col border-r">
       <nav className="p-2">
-        <Button variant="ghost" className="w-full justify-start gap-2">
+        <Button
+          onClick={handleTrashbinClick}
+          variant="ghost"
+          className="w-full justify-start gap-2"
+        >
           <Archive className="h-4 w-4" />
           Deleted Items
         </Button>
@@ -59,7 +75,12 @@ export function AppSidebar() {
         <span className="text-muted-foreground text-xs font-semibold">
           Groups
         </span>
-        <Button size="icon" variant="ghost" className="h-6 w-6">
+        <Button
+          onClick={handleAddClick}
+          size="icon"
+          variant="ghost"
+          className="h-6 w-6"
+        >
           <Plus className="h-4 w-4" />
         </Button>
       </div>

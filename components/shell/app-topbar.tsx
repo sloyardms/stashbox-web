@@ -3,9 +3,9 @@
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { useStashboxStore } from "@/lib/stashbox-store"
-import { authClient } from "@/lib/auth-client"
 import { UserMenu } from "./user-menu"
-import { useRouter } from "next/navigation"
+import { routes } from "@/lib/routes"
+import Link from "next/link"
 
 export function AppTopbar() {
   const selectedGroup = useStashboxStore((s) => s.selectedGroup)
@@ -14,9 +14,12 @@ export function AppTopbar() {
 
   return (
     <header className="flex h-14 items-center gap-4 border-b px-4">
-      <div className="flex w-48 shrink-0 items-center gap-2 font-semibold">
+      <Link
+        href={routes.home}
+        className="flex w-48 shrink-0 items-center gap-2 font-semibold"
+      >
         📦 stashbox
-      </div>
+      </Link>
 
       <div className="relative max-w-xl flex-1">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
