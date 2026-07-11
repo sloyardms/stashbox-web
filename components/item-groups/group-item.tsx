@@ -1,7 +1,6 @@
 "use client"
 
 import * as Icons from "lucide-react"
-import type { LucideIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -14,8 +13,12 @@ import { cn } from "@/lib/utils"
 import type { ItemGroup } from "@/types/ItemGroup"
 import { useRouter } from "next/navigation"
 import { routes } from "@/lib/routes"
-import Link from "next/link"
 import { IconRenderer } from "../icon-picker/icon-renderer"
+import { useConfirm } from "../providers/confirm-provider"
+import { useDeleteItemGroup } from "@/hooks/item-groups/useDeleteGroup"
+import { useState } from "react"
+import { toast } from "sonner"
+import { ApiError } from "@/lib/fetcher"
 
 interface GroupItemProps {
   group: ItemGroup
@@ -24,6 +27,9 @@ interface GroupItemProps {
 
 export function GroupItem({ group, active }: GroupItemProps) {
   const router = useRouter()
+  const confirm = useConfirm()
+  const { deleteItemGroup } = useDeleteItemGroup()
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const handleEditClick = () => {
     router.push(routes.groups.edit(group.slug))
@@ -31,6 +37,36 @@ export function GroupItem({ group, active }: GroupItemProps) {
 
   const handleNavigateClick = () => {
     router.push(routes.groups.details(group.slug))
+  }
+
+  const handleDeleteClick = async () => {
+    const ok = await confirm({
+      title: `Delete "${group.name}"?`,
+      description:
+        group.itemCount > 0
+          ? `${group.itemCount} item(s) in this group will also be deleted. This action cannot be undone.`
+          : "This action cannot be undone.",
+      confirmLabel: "Delete",
+      variant: "destructive",
+    })
+
+    if (!ok) return
+
+    setIsDeleting(true)
+
+    try {
+      await deleteItemGroup(group.slug)
+      toast.success(`"${group.name}" deleted`)
+      if (active) {
+        router.push(routes.home)
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof ApiError ? error.message : "Couldn't delete group",
+      )
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   return (
@@ -66,13 +102,18 @@ export function GroupItem({ group, active }: GroupItemProps) {
           <Icons.MoreHorizontal className="h-3.5 w-3.5" />
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
           <DropdownMenuItem onClick={handleEditClick}>
             <Icons.Pencil className="mr-2 h-4 w-4" /> Edit
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">
-            <Icons.Trash2 className="mr-2 h-4 w-4" /> Delete
+          <DropdownMenuItem
+            variant="destructive"
+            disabled={group.defaultGroup || isDeleting}
+            onClick={handleDeleteClick}
+          >
+            <Icons.Trash2 className="mr-2 h-4 w-4" />
+            {isDeleting ? "Deleting…" : "Delete"}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import { auth } from "@/lib/auth"
 import { AppShell } from "@/components/shell/app-shell"
+import { ConfirmProvider } from "@/components/providers/confirm-provider"
 
 export default async function AppLayout({
   children,
@@ -16,5 +17,9 @@ export default async function AppLayout({
     redirect("/")
   }
 
-  return <AppShell>{children}</AppShell>
+  return (
+    <ConfirmProvider>
+      <AppShell>{children}</AppShell>
+    </ConfirmProvider>
+  )
 }
