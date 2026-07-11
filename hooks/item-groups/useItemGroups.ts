@@ -1,10 +1,11 @@
 import type { UUID } from "@/types/common/UUID"
 import type { ItemGroup } from "@/types/ItemGroup"
 import { useEntityCollection } from "../shared/useEntityCollection"
+import { apiRoutes } from "@/lib/api/api-routes"
 
 export function useItemGroups(params: { page?: number; size?: number } = {}) {
   const { items, mutate, data, ...rest } = useEntityCollection<ItemGroup>({
-    endpoint: "/api/item-groups",
+    endpoint: apiRoutes.itemGroups.collection,
     sort: "position,asc",
     ...params,
   })
@@ -21,7 +22,7 @@ export function useItemGroups(params: { page?: number; size?: number } = {}) {
 
     await mutate({ ...data, content: reordered }, false)
     try {
-      const res = await fetch("/api/item-groups/reorder", {
+      const res = await fetch(apiRoutes.itemGroups.reorder, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderedIds),

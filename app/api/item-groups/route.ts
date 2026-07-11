@@ -1,10 +1,11 @@
+import { backendRoutes } from "@/lib/api/backend-routes"
 import { proxyToBackend } from "@/lib/api/bff-proxy"
 import { createItemGroupPayloadSchema } from "@/lib/validations/item-groups"
 import { NextRequest } from "next/server"
 import { z } from "zod"
 
 export async function GET(req: NextRequest) {
-  return proxyToBackend(req, "/api/v1/item-groups", {
+  return proxyToBackend(req, backendRoutes.itemGroups.collection, {
     searchParams: new URL(req.url).searchParams,
   })
 }
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  return proxyToBackend(req, "/api/v1/item-groups", {
+  return proxyToBackend(req, backendRoutes.itemGroups.collection, {
     method: "POST",
     body: parsed.data,
   })

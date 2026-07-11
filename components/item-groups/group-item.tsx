@@ -36,7 +36,7 @@ export function GroupItem({ group, active }: GroupItemProps) {
   }
 
   const handleNavigateClick = () => {
-    router.push(routes.groups.details(group.slug))
+    router.push(routes.groups.collection(group.slug))
   }
 
   const handleDeleteClick = async () => {
@@ -56,7 +56,6 @@ export function GroupItem({ group, active }: GroupItemProps) {
 
     try {
       await deleteItemGroup(group.slug)
-      toast.success(`"${group.name}" deleted`)
       if (active) {
         router.push(routes.home)
       }

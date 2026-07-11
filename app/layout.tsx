@@ -49,7 +49,7 @@ export default function RootLayout({
           enableColorScheme={false}
         >
           {children}
-          <Toaster />
+          <Toaster position="top-center"/>
         </ThemeProvider>
       </body>
     </html>

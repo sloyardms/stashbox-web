@@ -1,3 +1,4 @@
+import { backendRoutes } from "@/lib/api/backend-routes"
 import { proxyToBackend } from "@/lib/api/bff-proxy"
 import { NextRequest } from "next/server"
 
@@ -6,5 +7,7 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params
-  return proxyToBackend(req, `/api/v1/item-groups/${slug}`, { method: "DELETE" })
+  return proxyToBackend(req, backendRoutes.itemGroups.bySlug(slug), {
+    method: "DELETE",
+  })
 }

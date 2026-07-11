@@ -6,8 +6,8 @@ import { ItemGroupForm } from "@/components/item-groups/item-group-form"
 import { useCreateItemGroup } from "@/hooks/item-groups/useCreateItemGroup"
 import type { ItemGroupFormValues } from "@/lib/validations/item-groups"
 import Link from "next/link"
-import { routes } from "@/lib/routes"
 import { ArrowLeft } from "lucide-react"
+import { routes } from "@/lib/routes"
 
 export default function NewItemGroupPage() {
   const router = useRouter()
@@ -24,7 +24,7 @@ export default function NewItemGroupPage() {
     <div className="mx-auto max-w-2xl px-6 py-10">
       {returnSlug && (
         <Link
-          href={routes.groups.details(returnSlug)}
+          href={routes.groups.collection(returnSlug)}
           className="text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1 text-sm"
         >
           <ArrowLeft className="size-4" />

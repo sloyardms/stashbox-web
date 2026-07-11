@@ -18,11 +18,7 @@ export function AppTopbar() {
 
       <div className="relative max-w-xl flex-1">
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
-        <Input
-          className="pl-8"
-          placeholder={""}
-          value={""}
-        />
+        <Input className="pl-8" placeholder={""} value={""} />
       </div>
 
       <div className="ml-auto flex items-center gap-2">
