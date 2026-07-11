@@ -10,11 +10,9 @@ import { cn } from "@/lib/utils"
 export function SortableGroupItem({
   group,
   active,
-  onSelect,
 }: {
   group: ItemGroup
   active: boolean
-  onSelect: () => void
 }) {
   const {
     attributes,
@@ -37,9 +35,7 @@ export function SortableGroupItem({
       style={style}
       className={cn(
         "flex items-center gap-1 rounded-md transition-colors",
-        active
-          ? "bg-secondary text-primary shadow-sm"
-          : "hover:bg-accent",
+        active ? "bg-secondary text-primary shadow-sm" : "hover:bg-accent",
       )}
     >
       <button
@@ -48,6 +44,7 @@ export function SortableGroupItem({
         className="cursor-grab touch-none px-1"
       >
         <GripVertical
+          aria-label={`reorder${group.slug}`}
           className={cn(
             "h-3.5 w-3.5",
             active ? "text-primary" : "text-muted-foreground",
@@ -55,7 +52,7 @@ export function SortableGroupItem({
         />
       </button>
       <div className="min-w-0 flex-1">
-        <GroupItem group={group} active={active} onSelect={onSelect} />
+        <GroupItem group={group} active={active} />
       </div>
     </div>
   )

@@ -1,7 +1,6 @@
-// hooks/useItemGroups.ts
 import type { UUID } from "@/types/common/UUID"
 import type { ItemGroup } from "@/types/ItemGroup"
-import { useEntityCollection } from "./shared/useEntityCollection"
+import { useEntityCollection } from "../shared/useEntityCollection"
 
 export function useItemGroups(params: { page?: number; size?: number } = {}) {
   const { items, mutate, data, ...rest } = useEntityCollection<ItemGroup>({
@@ -25,7 +24,7 @@ export function useItemGroups(params: { page?: number; size?: number } = {}) {
       const res = await fetch("/api/item-groups/reorder", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderedIds }),
+        body: JSON.stringify(orderedIds),
       })
       if (!res.ok) throw new Error("Reorder failed")
       await mutate()

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import {
   DndContext,
   closestCenter,
@@ -18,20 +18,19 @@ import { Archive, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useItemGroups } from "@/hooks/useItemGroups"
-import { useStashboxStore } from "@/lib/stashbox-store"
+import { useItemGroups } from "@/hooks/item-groups/useItemGroups"
 import { SortableGroupItem } from "@/components/item-groups/sortable-group-item"
 import { routes } from "@/lib/routes"
 
 export function AppSidebar() {
+  const params = useParams<{ slug?: string }>()
+  const activeSlug = params.slug
   const router = useRouter()
 
   const { itemGroups, error, isLoading, reorderItemGroups } = useItemGroups({
     page: 0,
     size: 20,
   })
-  const selectedGroup = useStashboxStore((s) => s.selectedGroup)
-  const setSelectedGroup = useStashboxStore((s) => s.setSelectedGroup)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -44,7 +43,6 @@ export function AppSidebar() {
     const oldIndex = itemGroups.findIndex((g) => g.id === active.id)
     const newIndex = itemGroups.findIndex((g) => g.id === over.id)
     const reordered = arrayMove(itemGroups, oldIndex, newIndex)
-
     await reorderItemGroups(reordered.map((g) => g.id))
   }
 
@@ -113,8 +111,7 @@ export function AppSidebar() {
               <SortableGroupItem
                 key={group.id}
                 group={group}
-                active={selectedGroup?.id === group.id}
-                onSelect={() => setSelectedGroup(group)}
+                active={activeSlug === group.slug}
               />
             ))}
           </SortableContext>

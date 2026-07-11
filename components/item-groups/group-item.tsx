@@ -14,42 +14,41 @@ import { cn } from "@/lib/utils"
 import type { ItemGroup } from "@/types/ItemGroup"
 import { useRouter } from "next/navigation"
 import { routes } from "@/lib/routes"
+import Link from "next/link"
+import { IconRenderer } from "../icon-picker/icon-renderer"
 
 interface GroupItemProps {
   group: ItemGroup
   active: boolean
-  onSelect: () => void
 }
 
-export function GroupItem({ group, active, onSelect }: GroupItemProps) {
+export function GroupItem({ group, active }: GroupItemProps) {
   const router = useRouter()
 
-  function getGroupIcon(iconName: string): LucideIcon {
-    return (
-      (Icons as unknown as Record<string, LucideIcon>)[iconName] ?? Icons.Folder
-    )
-  }
-
-  const Icon = getGroupIcon(group.icon)
-
   const handleEditClick = () => {
-    router.push(routes.groups.edit(group.id))
+    router.push(routes.groups.edit(group.slug))
   }
 
-  const handleClick = () => {
-    onSelect()
-    router.push(routes.groups.details(group.id))
+  const handleNavigateClick = () => {
+    router.push(routes.groups.details(group.slug))
   }
 
   return (
     <div
       className={cn(
-        "group flex cursor-pointer items-center rounded-md px-2 py-1.5 text-sm transition-all"
+        "group flex cursor-pointer items-center rounded-md px-2 py-1.5 text-sm transition-all",
       )}
-      onClick={handleClick}
+      onClick={handleNavigateClick}
     >
-      <Icon className="text-muted-foreground mr-2 h-4 w-4 shrink-0" />
-      <span className="flex-1 truncate">
+      <IconRenderer
+        icon={group.icon}
+        fallback="Folder"
+        className={cn(
+          "mr-2 h-4 w-4 shrink-0",
+          active ? "text-primary" : "text-muted-foreground",
+        )}
+      />
+      <span className={cn("flex-1 truncate", active && "font-medium")}>
         {group.name} ({group.itemCount})
       </span>
 

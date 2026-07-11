@@ -2,16 +2,11 @@
 
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { useStashboxStore } from "@/lib/stashbox-store"
 import { UserMenu } from "./user-menu"
 import { routes } from "@/lib/routes"
 import Link from "next/link"
 
 export function AppTopbar() {
-  const selectedGroup = useStashboxStore((s) => s.selectedGroup)
-  const searchQuery = useStashboxStore((s) => s.searchQuery)
-  const setSearchQuery = useStashboxStore((s) => s.setSearchQuery)
-
   return (
     <header className="flex h-14 items-center gap-4 border-b px-4">
       <Link
@@ -25,11 +20,8 @@ export function AppTopbar() {
         <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
         <Input
           className="pl-8"
-          placeholder={
-            selectedGroup ? `Search in ${selectedGroup.name}…` : "Search…"
-          }
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder={""}
+          value={""}
         />
       </div>
 
