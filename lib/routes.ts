@@ -6,7 +6,14 @@ export const routes = {
   trashbin: "/stashbox/trashbin",
   groups: {
     new: "/stashbox/groups/new",
-    details: (id: UUID | number) => `/stashbox/groups/${id}`,
-    edit: (id: UUID | number) => `/stashbox/groups/${id}/edit`,
+    details: (slug: string) => `/stashbox/groups/${slug}`,
+    edit: (slug: string) => `/stashbox/groups/${slug}/edit`,
+  },
+}
+
+export const apiRoutes = {
+  itemGroups: {
+    getall: "/api/v1/item-groups",
+    create: "/api/v1/item-groups",
   },
 }
