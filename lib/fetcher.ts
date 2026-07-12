@@ -1,19 +1,47 @@
+export interface ApiFieldError {
+  field: string
+  message: string
+}
+
+interface ProblemDetails {
+  detail: string
+  title: string
+  status: number
+  type: string
+  traceId?: string
+  fieldErrors?: ApiFieldError[]
+}
+
 export class ApiError extends Error {
   status: number
-  constructor(message: string, status: number) {
-    super(message)
-    this.status = status
+  fieldErrors?: ApiFieldError[]
+  traceId?: string
+
+  constructor(problem: ProblemDetails) {
+    super(problem.detail)
+    this.status = problem.status
+    this.fieldErrors = problem.fieldErrors
+    this.traceId = problem.traceId
   }
+}
+
+export async function toApiError(res: Response): Promise<ApiError> {
+  const body = await res.json().catch(() => null)
+  if (body?.detail) {
+    return new ApiError(body)
+  }
+  // fallback for non-Problem-Details errors (network failures, unexpected shapes)
+  return new ApiError({
+    detail: "Request failed",
+    title: "Error",
+    status: res.status,
+    type: "urn:stashbox:error:unknown",
+  })
 }
 
 export async function fetcher<T>(url: string): Promise<T> {
   const res = await fetch(url)
-
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}))
-    throw new ApiError(body.error ?? "Request failed", res.status)
-  }
-
+  if (!res.ok) throw await toApiError(res)
   return res.json()
 }
 
@@ -23,11 +51,6 @@ export async function postJson<T>(url: string, body: unknown): Promise<T> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   })
-
-  if (!res.ok) {
-    const errBody = await res.json().catch(() => ({}))
-    throw new ApiError(errBody.error ?? "Request failed", res.status)
-  }
-
+  if (!res.ok) throw await toApiError(res)
   return res.json()
 }

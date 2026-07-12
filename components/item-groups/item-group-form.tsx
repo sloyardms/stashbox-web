@@ -24,6 +24,9 @@ import {
   type ItemGroupFormValues,
 } from "@/lib/validations/item-groups"
 import { IconPicker } from "../icon-picker/icon-picker"
+import { ApiError } from "@/lib/fetcher"
+import { translateFieldError } from "@/lib/validations/field-error-messages"
+import { toast } from "sonner"
 
 interface ItemGroupFormProps {
   onSubmit: (values: ItemGroupFormValues) => Promise<void>
@@ -60,17 +63,29 @@ export function ItemGroupForm({
 
   async function handleSubmit(values: ItemGroupFormValues) {
     setIsSubmitting(true)
-    setRootError(null)
     try {
       await onSubmit(values)
     } catch (error) {
-      const message =
-        error instanceof Error ? error.message : "Something went wrong"
-      if (message.toLowerCase().includes("name")) {
-        form.setError("name", { message })
-      } else {
-        setRootError(message)
+      if (error instanceof ApiError && error.fieldErrors?.length) {
+        const knownFields = new Set(["name", "description", "icon"])
+        let mappedAny = false
+
+        for (const fieldError of error.fieldErrors) {
+          if (knownFields.has(fieldError.field)) {
+            form.setError(fieldError.field as keyof ItemGroupFormValues, {
+              message: translateFieldError(fieldError.message),
+            })
+            mappedAny = true
+          }
+        }
+
+        if (mappedAny) return
       }
+
+      // network errors, 500s, or a fieldError referencing a field this form doesn't have
+      toast.error(
+        error instanceof ApiError ? error.message : "Something went wrong",
+      )
     } finally {
       setIsSubmitting(false)
     }

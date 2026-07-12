@@ -17,10 +17,6 @@ export function useCreateItemGroup() {
       undefined,
       { revalidate: true },
     )
-
-    toast.success("Group created", {
-      description: `"${created.name}" has been created.`,
-    })
     
     return created
   }

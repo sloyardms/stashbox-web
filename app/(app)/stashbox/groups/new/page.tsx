@@ -8,6 +8,7 @@ import type { ItemGroupFormValues } from "@/lib/validations/item-groups"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { routes } from "@/lib/routes"
+import { toast } from "sonner"
 
 export default function NewItemGroupPage() {
   const router = useRouter()
@@ -17,6 +18,9 @@ export default function NewItemGroupPage() {
 
   async function handleSubmit(values: ItemGroupFormValues) {
     await createItemGroup(values)
+    toast.success("Group created", {
+      description: `"${values.name}" has been created.`,
+    })
     router.push(returnSlug ? `/stashbox/groups/${returnSlug}` : "/stashbox")
   }
 

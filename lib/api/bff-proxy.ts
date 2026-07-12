@@ -34,7 +34,15 @@ export async function proxyToBackend(
     return Response.json({ error: "Session expired" }, { status: 401 })
   }
   if (!response.ok) {
-    return Response.json({ error: `Request failed` }, { status: response.status })
+    const problem = await response.json().catch(() => null)
+    return Response.json(
+      problem ?? {
+        detail: "Request failed",
+        title: "Error",
+        status: response.status,
+      },
+      { status: response.status },
+    )
   }
   if (response.status === 204) return new Response(null, { status: 204 })
 

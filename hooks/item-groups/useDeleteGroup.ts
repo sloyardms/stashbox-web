@@ -1,5 +1,5 @@
 import { apiRoutes } from "@/lib/api/api-routes"
-import { ApiError } from "@/lib/fetcher"
+import { toApiError } from "@/lib/fetcher"
 import { toast } from "sonner"
 import { mutate } from "swr"
 
@@ -9,12 +9,7 @@ export function useDeleteItemGroup() {
       method: "DELETE",
     })
 
-    if (!res.ok) {
-      const errBody = await res.json().catch(() => ({}))
-      throw new ApiError(errBody.error ?? "Failed to delete group", res.status)
-    }
-
-    toast.success("Group deleted")
+    if (!res.ok) throw await toApiError(res)
 
     await mutate(
       (key) =>
