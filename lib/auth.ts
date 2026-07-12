@@ -1,7 +1,11 @@
 import { betterAuth } from "better-auth"
 import { genericOAuth, keycloak } from "better-auth/plugins"
+import { Pool } from "pg"
 
 export const auth = betterAuth({
+  database: new Pool({
+    connectionString: process.env.BETTER_AUTH_DATABASE_URL,
+  }),
   plugins: [
     genericOAuth({
       config: [
