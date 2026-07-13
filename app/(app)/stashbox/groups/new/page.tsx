@@ -19,9 +19,7 @@ export default function NewItemGroupPage() {
 
   async function handleSubmit(values: ItemGroupFormValues) {
     await createItemGroup(values)
-    toast.success("Group created", {
-      description: `"${values.name}" has been created.`,
-    })
+    toast.success(`Created "${values.name}".`)
     router.push(returnSlug ? `/stashbox/groups/${returnSlug}` : "/stashbox")
   }
 

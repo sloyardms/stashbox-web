@@ -19,9 +19,7 @@ export default function EditItemGroupPage() {
   async function handleSubmit(values: ItemGroupFormValues) {
     if (!itemGroup) return
     const updated = await updateItemGroup(itemGroup.slug, values)
-    toast.success("Group updated", {
-      description: `"${updated.name}" has been updated.`,
-    })
+    toast.success(`Updated "${updated.name}"`)
     router.push(routes.groups.collection(updated.slug))
   }
 
@@ -43,7 +41,9 @@ export default function EditItemGroupPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-10">
-      <BackLink href={routes.groups.collection(group)}>Back to {itemGroup.name}</BackLink>
+      <BackLink href={routes.groups.collection(group)}>
+        Back to {itemGroup.name}
+      </BackLink>
 
       <ItemGroupForm
         key={itemGroup.id}

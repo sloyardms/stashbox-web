@@ -34,7 +34,6 @@ export function useItemGroups() {
           body: JSON.stringify(orderedIds),
         })
         if (!res.ok) {
-          console.log(orderedIds)
           throw new Error("Reorder failed")
         }
         return buildReordered(groups, orderedIds)

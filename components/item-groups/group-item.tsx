@@ -19,6 +19,8 @@ import { useDeleteItemGroup } from "@/hooks/item-groups/useDeleteGroup"
 import { useState } from "react"
 import { toast } from "sonner"
 import { ApiError } from "@/lib/fetcher"
+import { useSetDefaultItemGroup } from "@/hooks/item-groups/useSetDefaultItemGroup"
+import { toastErrorMessage } from "@/lib/toast-error"
 
 interface GroupItemProps {
   group: ItemGroupSummary
@@ -30,6 +32,7 @@ export function GroupItem({ group, active }: GroupItemProps) {
   const confirm = useConfirm()
   const { deleteItemGroup } = useDeleteItemGroup()
   const [isDeleting, setIsDeleting] = useState(false)
+  const { setDefaultItemGroup } = useSetDefaultItemGroup()
 
   const handleEditClick = () => {
     router.push(routes.groups.edit(group.slug))
@@ -56,15 +59,25 @@ export function GroupItem({ group, active }: GroupItemProps) {
 
     try {
       await deleteItemGroup(group.slug)
+      toast.success(`Deleted "${group.name}"`)
       if (active) {
         router.push(routes.home)
       }
     } catch (error) {
-      toast.error(
-        error instanceof ApiError ? error.message : "Couldn't delete group",
-      )
+      toast.error(toastErrorMessage(error, "Failed to delete group"))
     } finally {
       setIsDeleting(false)
+    }
+  }
+
+  const handleSetDefaultClick = async () => {
+    try {
+      await setDefaultItemGroup(group.slug)
+      toast.success(`"${group.name}" set as default.`)
+    } catch (error) {
+      toast.error(
+        toastErrorMessage(error, "Failed to set the group as default"),
+      )
     }
   }
 
@@ -101,11 +114,24 @@ export function GroupItem({ group, active }: GroupItemProps) {
           <Icons.MoreHorizontal className="h-3.5 w-3.5" />
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+        <DropdownMenuContent
+          align="end"
+          className="w-40"
+          onClick={(e) => e.stopPropagation()}
+        >
           <DropdownMenuItem onClick={handleEditClick}>
             <Icons.Pencil className="mr-2 h-4 w-4" /> Edit
           </DropdownMenuItem>
+
+          <DropdownMenuItem
+            disabled={group.defaultGroup}
+            onClick={handleSetDefaultClick}
+          >
+            <Icons.Star className="mr-2 h-4 w-4" /> Set as default
+          </DropdownMenuItem>
+
           <DropdownMenuSeparator />
+
           <DropdownMenuItem
             variant="destructive"
             disabled={group.defaultGroup || isDeleting}

@@ -87,10 +87,8 @@ export function ItemGroupForm({
         if (mappedAny) return
       }
 
-      // network errors, 500s, or a fieldError referencing a field this form doesn't have
-      toast.error(
-        error instanceof ApiError ? error.message : "Something went wrong",
-      )
+      //Other errors
+      toast.error("Something went wrong")
     } finally {
       setIsSubmitting(false)
     }

@@ -8,6 +8,7 @@ export const apiRoutes = {
     collection: "/api/item-groups",
     bySlug: (slug: string) => `/api/item-groups/${slug}`,
     reorder: "/api/item-groups/reorder",
+    setDefault: (slug: string) => `/api/item-groups/${slug}/default`,
   },
 } as const
 
