@@ -16,7 +16,6 @@ import {
   FieldError,
   FieldSet,
   FieldLegend,
-  FieldContent,
 } from "@/components/ui/field"
 import {
   itemGroupFormSchema,
@@ -29,20 +28,26 @@ import { translateFieldError } from "@/lib/validations/field-error-messages"
 import { toast } from "sonner"
 
 interface ItemGroupFormProps {
+  defaultValues?: ItemGroupFormValues
   onSubmit: (values: ItemGroupFormValues) => Promise<void>
   submitLabel?: string
+  formTitle?: string
+  formDescription?: string
 }
 
 export function ItemGroupForm({
+  defaultValues = defaultItemGroupFormValues,
   onSubmit,
   submitLabel = "Create group",
+  formTitle = "New group",
+  formDescription = "Groups organize your items and control what fields they require.",
 }: ItemGroupFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [rootError, setRootError] = useState<string | null>(null)
 
   const form = useForm<ItemGroupFormValues>({
     resolver: zodResolver(itemGroupFormSchema),
-    defaultValues: defaultItemGroupFormValues,
+    defaultValues, // was hardcoded to defaultItemGroupFormValues before
     mode: "onBlur",
   })
 
@@ -95,9 +100,9 @@ export function ItemGroupForm({
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <div className="border-border bg-card rounded-xl border shadow-sm">
         <div className="border-border border-b px-6 py-5">
-          <h1 className="text-foreground text-lg font-semibold">New group</h1>
+          <h1 className="text-foreground text-lg font-semibold">{formTitle}</h1>
           <p className="text-muted-foreground mt-1 text-sm">
-            Groups organize your items and control what fields they require.
+            {formDescription}
           </p>
         </div>
 

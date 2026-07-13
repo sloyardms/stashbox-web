@@ -1,6 +1,30 @@
 import type { UUID } from "./common/UUID"
 
-export interface ItemGroup {
+export interface ItemGroupSettings {
+  requiredTitle: boolean
+  uniqueTitle: boolean
+  requiredUrl: boolean
+  uniqueUrl: boolean
+  requiredImage: boolean
+}
+
+/**
+ * GET /api/v1/item-groups mirrors ItemGroupWithCount projection
+ */
+export interface ItemGroupSummary {
+  id: UUID
+  name: string
+  slug: string
+  icon: string
+  defaultGroup: boolean
+  position: number
+  itemCount: number
+}
+
+/**
+ * GET by slug, POST, PATCH — mirrors ItemGroupDetailResponse
+ */
+export interface ItemGroupDetail {
   id: UUID
   name: string
   slug: string
@@ -11,13 +35,4 @@ export interface ItemGroup {
   settings: ItemGroupSettings
   createdAt: string
   updatedAt: string
-  itemCount: number
-}
-
-export interface ItemGroupSettings {
-  requiredTitle: boolean
-  uniqueTitle: boolean
-  requiredUrl: boolean
-  uniqueUrl: boolean
-  requiredImage: boolean
 }

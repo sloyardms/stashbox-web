@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import type { ItemGroup } from "@/types/ItemGroup"
+import type { ItemGroupSummary } from "@/types/ItemGroup"
 import { useRouter } from "next/navigation"
 import { routes } from "@/lib/routes"
 import { IconRenderer } from "../icon-picker/icon-renderer"
@@ -21,7 +21,7 @@ import { toast } from "sonner"
 import { ApiError } from "@/lib/fetcher"
 
 interface GroupItemProps {
-  group: ItemGroup
+  group: ItemGroupSummary
   active: boolean
 }
 

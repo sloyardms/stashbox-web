@@ -62,7 +62,7 @@ export type CreateItemGroupPayload = z.infer<
   typeof createItemGroupPayloadSchema
 >
 
-export function toCreateItemGroupPayload(
+export function toItemGroupPayload (
   values: ItemGroupFormValues,
 ): CreateItemGroupPayload {
   return {

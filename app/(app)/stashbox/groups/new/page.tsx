@@ -9,6 +9,7 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { routes } from "@/lib/routes"
 import { toast } from "sonner"
+import { BackLink } from "@/components/ui/back-link"
 
 export default function NewItemGroupPage() {
   const router = useRouter()
@@ -27,13 +28,9 @@ export default function NewItemGroupPage() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-10">
       {returnSlug && (
-        <Link
-          href={routes.groups.collection(returnSlug)}
-          className="text-muted-foreground hover:text-foreground mb-4 inline-flex items-center gap-1 text-sm"
-        >
-          <ArrowLeft className="size-4" />
+        <BackLink href={routes.groups.collection(returnSlug)}>
           Back to {returnSlug}
-        </Link>
+        </BackLink>
       )}
       <ItemGroupForm onSubmit={handleSubmit} />
     </div>
