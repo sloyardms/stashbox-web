@@ -3,7 +3,7 @@
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { GripVertical } from "lucide-react"
-import type { ItemGroup } from "@/types/ItemGroup"
+import type { ItemGroupSummary } from "@/types/ItemGroup"
 import { GroupItem } from "./group-item"
 import { cn } from "@/lib/utils"
 
@@ -11,7 +11,7 @@ export function SortableGroupItem({
   group,
   active,
 }: {
-  group: ItemGroup
+  group: ItemGroupSummary
   active: boolean
 }) {
   const {

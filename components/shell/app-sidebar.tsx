@@ -27,10 +27,7 @@ export function AppSidebar() {
   const activeSlug = params.slug
   const router = useRouter()
 
-  const { itemGroups, error, isLoading, reorderItemGroups } = useItemGroups({
-    page: 0,
-    size: 20,
-  })
+  const { itemGroups, error, isLoading, reorderItemGroups } = useItemGroups()
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
