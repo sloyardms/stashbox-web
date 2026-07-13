@@ -4,14 +4,17 @@ import type { ItemGroupDetail, ItemGroupSummary } from "@/types/ItemGroup"
 import type { ItemGroupFormValues } from "@/lib/validations/item-groups"
 import { toItemGroupPayload } from "@/lib/validations/item-groups"
 import { apiRoutes } from "@/lib/api/api-routes"
-
+ 
 export function useUpdateItemGroup() {
-  async function updateItemGroup(slug: string, values: ItemGroupFormValues): Promise<ItemGroupDetail> {
+  async function updateItemGroup(
+    slug: string,
+    values: ItemGroupFormValues,
+  ): Promise<ItemGroupDetail> {
     const updated = await patchJson<ItemGroupDetail>(
       apiRoutes.itemGroups.bySlug(slug),
       toItemGroupPayload(values),
     )
-
+ 
     await mutate(
       apiRoutes.itemGroups.collection,
       (groups: ItemGroupSummary[] | undefined) =>
@@ -22,13 +25,13 @@ export function useUpdateItemGroup() {
         ),
       { revalidate: false },
     )
-
+ 
     await mutate(apiRoutes.itemGroups.bySlug(updated.slug), updated, false)
-
+ 
     if (updated.slug !== slug) {
       await mutate(apiRoutes.itemGroups.bySlug(slug), undefined, false)
     }
-
+ 
     return updated
   }
   return { updateItemGroup }

@@ -1,23 +1,53 @@
 import { mutate } from "swr"
 import { postJson } from "@/lib/fetcher"
-import type { ItemGroup } from "@/types/ItemGroup"
+import type { ItemGroupDetail, ItemGroupSummary } from "@/types/ItemGroup"
 import type { CreateItemGroupPayload } from "@/lib/validations/item-groups"
 import { apiRoutes } from "@/lib/api/api-routes"
-import { toast } from "sonner"
 
 export function useCreateItemGroup() {
   async function createItemGroup(
     payload: CreateItemGroupPayload,
-  ): Promise<ItemGroup> {
-    const route = apiRoutes.itemGroups.collection
-    const created = await postJson<ItemGroup>(route, payload)
+  ): Promise<ItemGroupDetail> {
+    const key = apiRoutes.itemGroups.collection
+
+    const tempId = crypto.randomUUID()
+    const optimisticGroup: ItemGroupSummary = {
+      id: tempId,
+      slug: `temp-${tempId}`,
+      name: payload.name,
+      icon: payload.icon,
+      itemCount: 0,
+    } as ItemGroupSummary
+
+    let created!: ItemGroupDetail
+
+    function toSummary(detail: ItemGroupDetail): ItemGroupSummary {
+      return {
+        id: detail.id,
+        slug: detail.slug,
+        name: detail.name,
+        icon: detail.icon,
+        itemCount: 0,
+      } as ItemGroupSummary
+    }
 
     await mutate(
-      (key) => typeof key === "string" && key.startsWith(`${route}?`),
-      undefined,
-      { revalidate: true },
+      key,
+      async (groups: ItemGroupSummary[] | undefined) => {
+        created = await postJson<ItemGroupDetail>(key, payload)
+        return [...(groups ?? []), toSummary(created)]
+      },
+      {
+        optimisticData: (groups: ItemGroupSummary[] | undefined) => [
+          ...(groups ?? []),
+          optimisticGroup,
+        ],
+        rollbackOnError: true,
+        populateCache: true,
+        revalidate: true,
+      },
     )
-    
+
     return created
   }
 
