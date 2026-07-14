@@ -1,6 +1,6 @@
 "use client"
 
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import {
   DndContext,
   closestCenter,
@@ -23,8 +23,6 @@ import { SortableGroupItem } from "@/components/item-groups/sortable-group-item"
 import { routes } from "@/lib/routes"
 
 export function AppSidebar() {
-  const params = useParams<{ slug?: string }>()
-  const activeSlug = params.slug
   const router = useRouter()
 
   const { itemGroups, error, isLoading, reorderItemGroups } = useItemGroups()
@@ -105,11 +103,7 @@ export function AppSidebar() {
             strategy={verticalListSortingStrategy}
           >
             {itemGroups.map((group) => (
-              <SortableGroupItem
-                key={group.id}
-                group={group}
-                active={activeSlug === group.slug}
-              />
+              <SortableGroupItem key={group.id} group={group} />
             ))}
           </SortableContext>
         </DndContext>

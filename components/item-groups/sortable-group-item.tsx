@@ -1,5 +1,6 @@
 "use client"
 
+import { useParams } from "next/navigation"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { GripVertical } from "lucide-react"
@@ -7,21 +8,12 @@ import type { ItemGroupSummary } from "@/types/ItemGroup"
 import { GroupItem } from "./group-item"
 import { cn } from "@/lib/utils"
 
-export function SortableGroupItem({
-  group,
-  active,
-}: {
-  group: ItemGroupSummary
-  active: boolean
-}) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: group.id })
+export function SortableGroupItem({ group }: { group: ItemGroupSummary }) {
+  const params = useParams<{ group?: string }>()
+  const active = params.group === group.slug
+
+  const { attributes, listeners, transform, transition, isDragging } =
+    useSortable({ id: group.id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -31,11 +23,10 @@ export function SortableGroupItem({
 
   return (
     <div
-      ref={setNodeRef}
       style={style}
       className={cn(
         "flex items-center gap-1 rounded-md transition-colors",
-        active ? "bg-secondary text-primary shadow-sm" : "hover:bg-accent",
+        active ? "bg-accent border-border border" : "hover:bg-accent/50",
       )}
     >
       <button
@@ -47,7 +38,7 @@ export function SortableGroupItem({
           aria-label={`reorder${group.slug}`}
           className={cn(
             "h-3.5 w-3.5",
-            active ? "text-primary" : "text-muted-foreground",
+            active ? "text-accent-foreground" : "text-muted-foreground",
           )}
         />
       </button>

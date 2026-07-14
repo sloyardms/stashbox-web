@@ -18,7 +18,6 @@ import { useConfirm } from "../providers/confirm-provider"
 import { useDeleteItemGroup } from "@/hooks/item-groups/useDeleteGroup"
 import { useState } from "react"
 import { toast } from "sonner"
-import { ApiError } from "@/lib/fetcher"
 import { useSetDefaultItemGroup } from "@/hooks/item-groups/useSetDefaultItemGroup"
 import { toastErrorMessage } from "@/lib/toast-error"
 
