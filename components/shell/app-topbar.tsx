@@ -1,37 +1,54 @@
 "use client"
 
-import { Search } from "lucide-react"
+import { Menu, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { UserMenu } from "./user-menu"
 import { routes } from "@/lib/routes"
 import Link from "next/link"
 import Image from "next/image"
 import { SIDEBAR_WIDTH } from "@/lib/layout-constants"
 
-export function AppTopbar() {
+export function AppTopbar({ onMenuClick }: { onMenuClick: () => void }) {
   return (
-    <header className="flex h-16 items-center border-b">
-      <Link
-        href={routes.home}
-        className={`flex ${SIDEBAR_WIDTH} h-full shrink-0 items-center gap-2 px-2`}
-      >
-        <Image
-          src="/logo.svg"
-          alt="stashbox"
-          width={320}
-          height={80}
-          priority
-          className="h-12 w-auto"
-        />
-      </Link>
+    <header className="flex flex-col border-b">
+      <div className="flex h-16 items-center">
+        <Button
+          onClick={onMenuClick}
+          variant="ghost"
+          size="icon"
+          className="ml-2 md:hidden"
+          aria-label="Open menu"
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
 
-      <div className="relative max-w-xl flex-1">
-        <Search className="text-muted-foreground absolute top-1/2 left-2 h-4 w-4 -translate-y-1/2" />
-        <Input className="pl-8" placeholder={""} value={""} />
+        <Link
+          href={routes.home}
+          className={`hidden md:flex ${SIDEBAR_WIDTH} h-full shrink-0 items-center gap-2 px-2`}
+        >
+          <Image src="/logo.svg" alt="stashbox" width={320} height={80} priority className="h-12 w-auto" />
+        </Link>
+
+        <Link href={routes.home} className="flex items-center gap-2 px-2 md:hidden">
+          <Image src="/logo.svg" alt="stashbox" width={320} height={80} priority className="h-8 w-auto" />
+        </Link>
+
+        <div className="relative hidden max-w-xl flex-1 md:block">
+          <Search className="text-muted-foreground absolute top-1/2 left-2 h-4 w-4 -translate-y-1/2" />
+          <Input className="pl-8" placeholder={""} value={""} />
+        </div>
+
+        <div className="ml-auto flex items-center gap-2 px-4">
+          <UserMenu />
+        </div>
       </div>
 
-      <div className="ml-auto flex items-center gap-2 px-4">
-        <UserMenu />
+      <div className="px-4 pb-3 md:hidden">
+        <div className="relative">
+          <Search className="text-muted-foreground absolute top-1/2 left-2 h-4 w-4 -translate-y-1/2" />
+          <Input className="pl-8" placeholder={""} value={""} />
+        </div>
       </div>
     </header>
   )
