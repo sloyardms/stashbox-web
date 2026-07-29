@@ -1,0 +1,13 @@
+<svg width="100%" viewBox="240 30 320 80" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>stashbox</title>
+<desc>stashbox logo</desc>
+<g transform="translate(250,46)">
+  <rect x="0" y="0" width="50" height="50" rx="6" fill="#0A0A0A"/>
+  <g transform="translate(-2,-2)">
+    <path d="M27 10 L42 18.5 L42 35.5 L27 44 L12 35.5 L12 18.5 Z" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M12 18.5 L27 27 L42 18.5" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linejoin="round"/>
+    <line x1="27" y1="27" x2="27" y2="44" stroke="#FFFFFF" stroke-width="2.2"/>
+  </g>
+</g>
+<text x="310" y="95" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" fill="#0A0A0A">stashbox</text>
+</svg>
