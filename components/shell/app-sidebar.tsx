@@ -21,6 +21,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useItemGroups } from "@/hooks/item-groups/useItemGroups"
 import { SortableGroupItem } from "@/components/item-groups/sortable-group-item"
 import { routes } from "@/lib/routes"
+import { SIDEBAR_WIDTH } from "@/lib/layout-constants"
 
 export function AppSidebar() {
   const router = useRouter()
@@ -50,8 +51,10 @@ export function AppSidebar() {
   }
 
   return (
-    <aside className="flex h-full w-72 shrink-0 flex-col border-r">
-      <nav className="p-2">
+    <aside
+      className={`flex h-full ${SIDEBAR_WIDTH} shrink-0 flex-col border-r`}
+    >
+      <nav className="px-1 py-2 mt-4">
         <Button
           onClick={handleTrashbinClick}
           variant="ghost"

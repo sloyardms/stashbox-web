@@ -12,7 +12,7 @@ export function SortableGroupItem({ group }: { group: ItemGroupSummary }) {
   const params = useParams<{ group?: string }>()
   const active = params.group === group.slug
 
-  const { attributes, listeners, transform, transition, isDragging } =
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: group.id })
 
   const style = {
@@ -23,10 +23,11 @@ export function SortableGroupItem({ group }: { group: ItemGroupSummary }) {
 
   return (
     <div
+      ref={setNodeRef}
       style={style}
       className={cn(
-        "flex items-center gap-1 rounded-md transition-colors",
-        active ? "bg-accent border-border border" : "hover:bg-accent/50",
+        "flex items-center rounded-sm transition-colors",
+        active ? "bg-accent" : "hover:bg-accent/50",
       )}
     >
       <button
@@ -38,7 +39,7 @@ export function SortableGroupItem({ group }: { group: ItemGroupSummary }) {
           aria-label={`reorder${group.slug}`}
           className={cn(
             "h-3.5 w-3.5",
-            active ? "text-accent-foreground" : "text-muted-foreground",
+            active ? "text-primary" : "text-muted-foreground",
           )}
         />
       </button>

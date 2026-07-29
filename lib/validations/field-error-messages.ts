@@ -1,8 +1,9 @@
 const fieldErrorMessages: Record<string, string> = {
   "validation.max": "This value is too long.",
   "validation.min": "This value is too short.",
-  "validation.required": "This field is required.",
+  "validation.notBlank": "This field is required.",
   "validation.conflict": "This value is already in use.",
+  "validation.at_least_one_field_required": "Provide at least one of: title, URL, description, or image."
 }
 
 export function translateFieldError(code: string): string {

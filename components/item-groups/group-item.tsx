@@ -92,55 +92,61 @@ export function GroupItem({ group, active }: GroupItemProps) {
         fallback="Folder"
         className={cn(
           "mr-2 h-4 w-4 shrink-0",
-          active ? "text-primary" : "text-muted-foreground",
+          active ? "text-foreground" : "text-muted-foreground",
         )}
       />
       <span className={cn("flex-1 truncate", active && "font-medium")}>
-        {group.name} ({group.itemCount})
+        {group.name}
       </span>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-6 w-6 opacity-0 group-hover:opacity-100"
-              onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            />
-          }
-        >
-          <Icons.MoreHorizontal className="h-3.5 w-3.5" />
-        </DropdownMenuTrigger>
+      <div className="relative flex h-6 w-6 items-center justify-center">
+        <span className="pointer-events-none text-muted-foreground absolute text-xs transition-opacity group-hover:opacity-0">
+          {group.itemCount}
+        </span>
 
-        <DropdownMenuContent
-          align="end"
-          className="w-40"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <DropdownMenuItem onClick={handleEditClick}>
-            <Icons.Pencil className="mr-2 h-4 w-4" /> Edit
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
-            disabled={group.defaultGroup}
-            onClick={handleSetDefaultClick}
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <Button
+                size="icon"
+                variant="ghost"
+                className="absolute h-6 w-6 pointer-events-none opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto"
+                onClick={(e: React.MouseEvent) => e.stopPropagation()}
+              />
+            }
           >
-            <Icons.Star className="mr-2 h-4 w-4" /> Set as default
-          </DropdownMenuItem>
+            <Icons.MoreHorizontal className="h-3.5 w-3.5" />
+          </DropdownMenuTrigger>
 
-          <DropdownMenuSeparator />
-
-          <DropdownMenuItem
-            variant="destructive"
-            disabled={group.defaultGroup || isDeleting}
-            onClick={handleDeleteClick}
+          <DropdownMenuContent
+            align="end"
+            className="w-40"
+            onClick={(e) => e.stopPropagation()}
           >
-            <Icons.Trash2 className="mr-2 h-4 w-4" />
-            {isDeleting ? "Deleting…" : "Delete"}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            <DropdownMenuItem onClick={handleEditClick}>
+              <Icons.Pencil className="mr-2 h-4 w-4" /> Edit
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              disabled={group.defaultGroup}
+              onClick={handleSetDefaultClick}
+            >
+              <Icons.Star className="mr-2 h-4 w-4" /> Set as default
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem
+              variant="destructive"
+              disabled={group.defaultGroup || isDeleting}
+              onClick={handleDeleteClick}
+            >
+              <Icons.Trash2 className="mr-2 h-4 w-4" />
+              {isDeleting ? "Deleting…" : "Delete"}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   )
 }
