@@ -6,7 +6,7 @@ import { useEffect } from "react"
 
 export default function StashboxPage() {
   const router = useRouter()
-  const { itemGroups, isLoading, error } = useItemGroups({ page: 0, size: 20 })
+  const { itemGroups, isLoading, error } = useItemGroups()
 
   useEffect(() => {
     if (isLoading || error || itemGroups.length === 0) return

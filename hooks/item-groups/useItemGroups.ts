@@ -2,7 +2,7 @@ import type { UUID } from "@/types/common/UUID"
 import type { ItemGroupSummary } from "@/types/ItemGroup"
 import { apiRoutes } from "@/lib/api/api-routes"
 import useSWR from "swr"
-import { ApiError, fetcher } from "@/lib/fetcher"
+import { ApiError, fetcher, putJsonVoid } from "@/lib/fetcher"
 
 export function useItemGroups() {
   const { data, error, isLoading, mutate } = useSWR<
@@ -28,14 +28,7 @@ export function useItemGroups() {
 
     await mutate(
       async (groups) => {
-        const res = await fetch(apiRoutes.itemGroups.reorder, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(orderedIds),
-        })
-        if (!res.ok) {
-          throw new Error("Reorder failed")
-        }
+        await putJsonVoid(apiRoutes.itemGroups.reorder, orderedIds)
         return buildReordered(groups, orderedIds)
       },
       {

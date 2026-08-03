@@ -15,7 +15,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         revalidateOnFocus: false,
         revalidateOnReconnect: false,
         revalidateIfStale: false,
-        revalidateOnMount: false,
+        revalidateOnMount: true,
         refreshInterval: 0,
         shouldRetryOnError: (err) => {
           // don't retry 401/403 — retrying an auth failure just spams the API

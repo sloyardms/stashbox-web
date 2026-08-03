@@ -7,7 +7,6 @@ export async function requireAccessToken(req: NextRequest) {
   if (!session) {
     return { error: Response.json({ error: "Unauthorized" }, { status: 401 }) }
   }
-
   const tokenResult = await auth.api
     .getAccessToken({
       body: { providerId: "keycloak" },
@@ -24,6 +23,7 @@ export async function requireAccessToken(req: NextRequest) {
       ),
     }
   }
-
+  console.log("Access token acquired:", tokenResult)
+  console.log("Session: ", session)
   return { accessToken: tokenResult.accessToken }
 }

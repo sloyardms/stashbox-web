@@ -1,6 +1,6 @@
 import { mutate } from "swr"
 import { apiRoutes } from "@/lib/api/api-routes"
-import { toApiError } from "@/lib/fetcher"
+import { putJsonVoid } from "@/lib/fetcher"
 import type { ItemGroupSummary } from "@/types/ItemGroup"
 
 export function useSetDefaultItemGroup() {
@@ -19,11 +19,7 @@ export function useSetDefaultItemGroup() {
     await mutate(
       key,
       async (groups: ItemGroupSummary[] | undefined) => {
-        const res = await fetch(apiRoutes.itemGroups.setDefault(slug), {
-          method: "PUT",
-        })
-        if (!res.ok) throw await toApiError(res)
-
+        await putJsonVoid(apiRoutes.itemGroups.setDefault(slug), undefined)
         return withNewDefault(groups)
       },
       {

@@ -23,7 +23,7 @@ export default function Home() {
 
     await authClient.signIn.oauth2({
       providerId: "keycloak",
-      callbackURL: "/stashbox",
+      callbackURL: "/api/post-login",
       errorCallbackURL: "/error-page",
       newUserCallbackURL: "/stashbox",
       disableRedirect: false,
@@ -36,9 +36,9 @@ export default function Home() {
 
     await authClient.signIn.oauth2({
       providerId: "keycloak",
-      callbackURL: "/stashbox",
+      callbackURL: "/api/post-login",
       errorCallbackURL: "/error-page",
-      newUserCallbackURL: "/stashbox",
+      newUserCallbackURL: "/api/post-login",
       disableRedirect: false,
     })
   }

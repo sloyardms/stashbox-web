@@ -10,14 +10,8 @@ export const apiRoutes = {
     reorder: "/api/item-groups/reorder",
     setDefault: (slug: string) => `/api/item-groups/${slug}/default`,
   },
+  user: {
+    me: "/api/me",
+    settings: "/api/me/settings",
+  },
 } as const
-
-export function invalidateItemGroups() {
-  return mutate(
-    (key) =>
-      typeof key === "string" &&
-      key.startsWith(`${apiRoutes.itemGroups.collection}?`),
-    undefined,
-    { revalidate: true },
-  )
-}
