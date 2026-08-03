@@ -23,7 +23,5 @@ export async function requireAccessToken(req: NextRequest) {
       ),
     }
   }
-  console.log("Access token acquired:", tokenResult)
-  console.log("Session: ", session)
   return { accessToken: tokenResult.accessToken }
 }
