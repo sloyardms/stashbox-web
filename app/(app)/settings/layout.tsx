@@ -1,6 +1,3 @@
-import { redirect } from "next/navigation"
-import { headers } from "next/headers"
-import { auth } from "@/lib/auth"
 import { ConfirmProvider } from "@/components/providers/confirm-provider"
 import { AppTopbar } from "@/components/shell/app-topbar"
 import { SettingsNav } from "@/components/settings/settings-nav"
@@ -10,14 +7,6 @@ export default async function SettingsLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-
-  if (!session) {
-    redirect("/")
-  }
-
   return (
     <ConfirmProvider>
       <div className="flex h-screen flex-col">

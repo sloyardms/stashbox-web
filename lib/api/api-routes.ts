@@ -14,4 +14,8 @@ export const apiRoutes = {
     me: "/api/me",
     settings: "/api/me/settings",
   },
+  auth: {
+    userinfo: "/api/auth/userinfo",
+  },
+  postLogin: "/api/post-login",
 } as const

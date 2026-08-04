@@ -1,7 +1,6 @@
 "use client"
 
 import { ReactNode, useState } from "react"
-import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -13,34 +12,34 @@ import {
 } from "@/components/ui/card"
 
 import { Link2, ImageIcon, FileText, Tags } from "lucide-react"
+import { signIn } from "next-auth/react"
+import { apiRoutes } from "@/lib/api/api-routes"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
 
   const handleLogin = async () => {
     if (isLoading) return
-    setIsLoading(true)
 
-    await authClient.signIn.oauth2({
-      providerId: "keycloak",
-      callbackURL: "/api/post-login",
-      errorCallbackURL: "/error-page",
-      newUserCallbackURL: "/stashbox",
-      disableRedirect: false,
+    await signIn("keycloak", {
+      redirectTo: apiRoutes.postLogin,
     })
   }
 
   const handleRegister = async () => {
     if (isLoading) return
+
     setIsLoading(true)
 
-    await authClient.signIn.oauth2({
-      providerId: "keycloak",
-      callbackURL: "/api/post-login",
-      errorCallbackURL: "/error-page",
-      newUserCallbackURL: "/api/post-login",
-      disableRedirect: false,
-    })
+    await signIn(
+      "keycloak",
+      {
+        redirectTo: apiRoutes.postLogin,
+      },
+      {
+        prompt: "create",
+      },
+    )
   }
 
   return (

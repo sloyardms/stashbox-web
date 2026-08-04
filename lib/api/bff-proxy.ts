@@ -14,7 +14,7 @@ export async function proxyToBackend(
   path: string,
   { method = "GET", body, searchParams }: ProxyOptions = {},
 ) {
-  const { accessToken, error } = await requireAccessToken(req)
+  const { accessToken, error } = await requireAccessToken()
   if (error) return error
 
   const qs = searchParams?.toString()

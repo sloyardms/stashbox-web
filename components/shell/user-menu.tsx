@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useSession, signOut } from "next-auth/react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,32 +10,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
 import { Settings, LogOut, User } from "lucide-react"
-import { authClient } from "@/lib/auth-client"
+import { useState } from "react"
+import { logout } from "@/lib/logout"
 
 export function UserMenu() {
-  const { data: session } = authClient.useSession()
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const { data: session } = useSession()
 
   const user = session?.user
   if (!user) return null
 
   const handleLogout = async () => {
-    const keycloakLogoutUrl = `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout?post_logout_redirect_uri=${encodeURIComponent(window.location.origin)}&client_id=${process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID}`
+    if (isLoggingOut) return
 
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          window.location.href = keycloakLogoutUrl
-        },
-      },
-    })
-  }
+    setIsLoggingOut(true)
 
-  const handleProfile = async () => {
-    window.open(`${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/account`, "_blank")
+    try {
+      logout(session)
+    } catch {
+      setIsLoggingOut(false)
+    }
   }
 
   return (
@@ -57,11 +54,6 @@ export function UserMenu() {
       />
       <DropdownMenuContent align="end" className="w-64">
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={handleProfile}>
-            <User className="mr-2 h-4 w-4" />
-            Profile
-          </DropdownMenuItem>
-
           <DropdownMenuItem
             render={
               <Link href="/settings">

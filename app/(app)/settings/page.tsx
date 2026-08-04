@@ -8,15 +8,15 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card"
-import { authClient } from "@/lib/auth-client"
+import { useProfile } from "@/hooks/useProfile"
 
-const KEYCLOAK_ACCOUNT_URL = process.env.NEXT_PUBLIC_KEYCLOAK_ACCOUNT_URL!
+const KEYCLOAK_ACCOUNT_URL =
+  process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER! + "/account";
 
 export default function ProfilePage() {
-  const { data: session } = authClient.useSession()
+  const { profile, isLoading } = useProfile()
 
-  const user = session?.user
-  if (!user) return null
+  if (isLoading || !profile) return null
 
   return (
     <Card>
@@ -30,11 +30,11 @@ export default function ProfilePage() {
         <dl className="space-y-2 text-sm">
           <div className="flex justify-between">
             <dt className="text-muted-foreground">Name</dt>
-            <dd>{session?.user.name}</dd>
+            <dd>{profile.name}</dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-muted-foreground">Email</dt>
-            <dd>{session?.user.email}</dd>
+            <dd>{profile.email}</dd>
           </div>
         </dl>
         <Button

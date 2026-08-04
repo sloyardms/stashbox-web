@@ -5,7 +5,9 @@ import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { cookies } from "next/headers"
-import { THEME_COOKIE_NAME } from "@/lib/theme-cookie"
+import { THEME_COOKIE_NAME } from "@/lib/constants/cookie-constants"
+import { SessionProvider } from "next-auth/react"
+import { AuthSessionHandler } from "@/components/auth-session-provider"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -55,7 +57,10 @@ export default async function RootLayout({
           disableTransitionOnChange
           enableColorScheme={false}
         >
-          {children}
+          <SessionProvider>
+            <AuthSessionHandler />
+            {children}
+          </SessionProvider>
           <Toaster position="top-center" />
         </ThemeProvider>
       </body>
