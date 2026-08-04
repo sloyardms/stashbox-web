@@ -2,12 +2,12 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, Inter } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/providers/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { cookies } from "next/headers"
 import { THEME_COOKIE_NAME } from "@/lib/constants/cookie-constants"
 import { SessionProvider } from "next-auth/react"
-import { AuthSessionHandler } from "@/components/auth-session-provider"
+import { AuthSessionHandler } from "@/components/providers/auth-session-provider"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 

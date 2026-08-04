@@ -65,11 +65,22 @@ export async function patchJson<T>(url: string, body: unknown): Promise<T> {
   return res.json()
 }
 
-export async function putJsonVoid<T>(url: string, body: unknown): Promise<void> {
+export async function putJsonVoid<T>(
+  url: string,
+  body: unknown,
+): Promise<void> {
   const res = await fetch(url, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+  })
+  if (!res.ok) throw await toApiError(res)
+}
+
+export async function deleteVoid(url: string): Promise<void> {
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
   })
   if (!res.ok) throw await toApiError(res)
 }

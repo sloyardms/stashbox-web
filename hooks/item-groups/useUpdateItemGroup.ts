@@ -1,9 +1,9 @@
 import { mutate } from "swr"
 import { patchJson } from "@/lib/fetcher"
 import type { ItemGroupDetail, ItemGroupSummary } from "@/types/ItemGroup"
-import type { ItemGroupFormValues } from "@/lib/validations/item-groups"
-import { toItemGroupPayload } from "@/lib/validations/item-groups"
-import { apiRoutes } from "@/lib/api/api-routes"
+import type { ItemGroupFormValues } from "@/lib/item-groups/validations"
+import { toItemGroupPayload } from "@/lib/item-groups/validations"
+import { apiRoutes } from "@/lib/routes/api-routes"
  
 export function useUpdateItemGroup() {
   async function updateItemGroup(

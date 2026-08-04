@@ -8,13 +8,27 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card"
-import { useProfile } from "@/hooks/useProfile"
+import { revalidateProfile, useProfile } from "@/hooks/user/useProfile"
+import { useEffect, useRef } from "react"
 
 const KEYCLOAK_ACCOUNT_URL =
-  process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER! + "/account";
+  process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER! + "/account"
 
 export default function ProfilePage() {
   const { profile, isLoading } = useProfile()
+  const awaitingReturn = useRef(false)
+
+  useEffect(() => {
+    function handleVisibility() {
+      if (document.visibilityState === "visible" && awaitingReturn.current) {
+        awaitingReturn.current = false
+        revalidateProfile()
+      }
+    }
+    document.addEventListener("visibilitychange", handleVisibility)
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibility)
+  }, [])
 
   if (isLoading || !profile) return null
 
@@ -38,7 +52,18 @@ export default function ProfilePage() {
           </div>
         </dl>
         <Button
-          render={<a href={KEYCLOAK_ACCOUNT_URL}>Update profile</a>}
+          onClick={() => {
+            awaitingReturn.current = true
+          }}
+          render={
+            <a
+              href={KEYCLOAK_ACCOUNT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Update profile
+            </a>
+          }
           nativeButton={false}
         />
       </CardContent>

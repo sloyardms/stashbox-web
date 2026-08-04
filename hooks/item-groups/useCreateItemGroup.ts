@@ -1,8 +1,8 @@
 import { mutate } from "swr"
 import { postJson } from "@/lib/fetcher"
 import type { ItemGroupDetail, ItemGroupSummary } from "@/types/ItemGroup"
-import type { CreateItemGroupPayload } from "@/lib/validations/item-groups"
-import { apiRoutes } from "@/lib/api/api-routes"
+import type { CreateItemGroupPayload } from "@/lib/item-groups/validations"
+import { apiRoutes } from "@/lib/routes/api-routes"
 
 export function useCreateItemGroup() {
   async function createItemGroup(

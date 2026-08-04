@@ -1,6 +1,6 @@
 import { User, UserSettings } from "@/types/User"
 import useSWR from "swr"
-import { apiRoutes } from "@/lib/api/api-routes"
+import { apiRoutes } from "@/lib/routes/api-routes"
 import { ApiError, fetcher, patchJson } from "@/lib/fetcher"
 
 export function useUser() {

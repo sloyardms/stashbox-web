@@ -1,7 +1,7 @@
-import { backendRoutes } from "@/lib/api/backend-routes"
+import { backendRoutes } from "@/lib/routes/backend-routes"
 import { proxyToBackend } from "@/lib/api/bff-proxy"
 import { NextRequest } from "next/server"
 
 export async function GET(req: NextRequest) {
-  return proxyToBackend(req, backendRoutes.user.me)
+  return proxyToBackend(backendRoutes.user.me)
 }

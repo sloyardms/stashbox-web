@@ -1,6 +1,6 @@
 import { useSWRConfig } from "swr"
-import { apiRoutes } from "@/lib/api/api-routes"
-import { toApiError } from "@/lib/fetcher"
+import { apiRoutes } from "@/lib/routes/api-routes"
+import { deleteVoid, toApiError } from "@/lib/fetcher"
 import type { ItemGroupSummary } from "@/types/ItemGroup"
 
 export function useDeleteItemGroup() {
@@ -11,12 +11,7 @@ export function useDeleteItemGroup() {
     const previous = cache.get(key)?.data as ItemGroupSummary[] | undefined
 
     try {
-      const res = await fetch(apiRoutes.itemGroups.bySlug(slug), {
-        method: "DELETE",
-      })
-
-      if (!res.ok) throw await toApiError(res)
-
+      await deleteVoid(apiRoutes.itemGroups.bySlug(slug))
       await mutate(
         key,
         previous?.filter((g) => g.slug !== slug),

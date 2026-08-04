@@ -13,14 +13,20 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Settings, LogOut, User } from "lucide-react"
 import { useState } from "react"
-import { logout } from "@/lib/logout"
+import { logout } from "@/lib/auth/logout"
+import { useProfile } from "@/hooks/user/useProfile"
 
 export function UserMenu() {
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const { data: session } = useSession()
+  const { profile } = useProfile()
 
-  const user = session?.user
-  if (!user) return null
+  if (!session?.user) return null
+
+  // fallback
+  const displayName = profile?.name ?? session.user.name
+  const displayEmail = profile?.email ?? session.user.email
+  const displayImage = profile?.picture ?? session.user.image
 
   const handleLogout = async () => {
     if (isLoggingOut) return
@@ -40,14 +46,14 @@ export function UserMenu() {
         render={
           <button className="hover:bg-muted flex items-center gap-2 rounded-md px-2 py-1">
             <Avatar className="h-8 w-8">
-              <AvatarImage src={user.image ?? ""} />
+              <AvatarImage src={displayImage ?? ""} />
               <AvatarFallback>
-                {user.name?.charAt(0).toUpperCase()}
+                {displayName?.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div className="hidden text-left md:block">
-              <p className="text-sm font-medium">{user.name}</p>
-              <p className="text-muted-foreground text-xs">{user.email}</p>
+              <p className="text-sm font-medium">{displayName}</p>
+              <p className="text-muted-foreground text-xs">{displayEmail}</p>
             </div>
           </button>
         }

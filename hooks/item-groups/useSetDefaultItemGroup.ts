@@ -1,5 +1,5 @@
 import { mutate } from "swr"
-import { apiRoutes } from "@/lib/api/api-routes"
+import { apiRoutes } from "@/lib/routes/api-routes"
 import { putJsonVoid } from "@/lib/fetcher"
 import type { ItemGroupSummary } from "@/types/ItemGroup"
 

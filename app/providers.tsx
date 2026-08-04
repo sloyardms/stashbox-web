@@ -3,7 +3,7 @@
 import { SWRConfig } from "swr"
 import { useRouter } from "next/navigation"
 import { ApiError, fetcher } from "@/lib/fetcher"
-import { routes } from "@/lib/routes"
+import { routes } from "@/lib/routes/routes"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter()
@@ -15,7 +15,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         revalidateOnFocus: false,
         revalidateOnReconnect: false,
         revalidateIfStale: false,
-        revalidateOnMount: true,
         refreshInterval: 0,
         shouldRetryOnError: (err) => {
           // don't retry 401/403 — retrying an auth failure just spams the API

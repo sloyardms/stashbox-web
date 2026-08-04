@@ -1,9 +1,9 @@
-import { auth } from "@/lib/auth"
+import { auth } from "@/lib/auth/auth"
 
 export async function requireAccessToken() {
   const session = await auth()
 
-  if (!session || session.error === "RefreshAccessTokenError") {
+  if (!session || session.error) {
     return { error: Response.json({ error: "Unauthorized" }, { status: 401 }) }
   }
   if (!session.accessToken) {

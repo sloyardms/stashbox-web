@@ -6,8 +6,8 @@ import { toast } from "sonner"
 import { ItemGroupForm } from "@/components/item-groups/item-group-form"
 import { useItemGroup } from "@/hooks/item-groups/useItemGroup"
 import { useUpdateItemGroup } from "@/hooks/item-groups/useUpdateItemGroup"
-import { routes } from "@/lib/routes"
-import type { ItemGroupFormValues } from "@/lib/validations/item-groups"
+import { routes } from "@/lib/routes/routes"
+import type { ItemGroupFormValues } from "@/lib/item-groups/validations"
 import { BackLink } from "@/components/ui/back-link"
 
 export default function EditItemGroupPage() {

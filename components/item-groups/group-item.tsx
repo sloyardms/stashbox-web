@@ -12,7 +12,7 @@ import {
 import { cn } from "@/lib/utils"
 import type { ItemGroupSummary } from "@/types/ItemGroup"
 import { useRouter } from "next/navigation"
-import { routes } from "@/lib/routes"
+import { routes } from "@/lib/routes/routes"
 import { IconRenderer } from "../icon-picker/icon-renderer"
 import { useConfirm } from "../providers/confirm-provider"
 import { useDeleteItemGroup } from "@/hooks/item-groups/useDeleteGroup"

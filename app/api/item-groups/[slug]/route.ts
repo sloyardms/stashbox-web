@@ -1,6 +1,6 @@
-import { backendRoutes } from "@/lib/api/backend-routes"
+import { backendRoutes } from "@/lib/routes/backend-routes"
 import { proxyToBackend } from "@/lib/api/bff-proxy"
-import { createItemGroupPayloadSchema } from "@/lib/validations/item-groups"
+import { createItemGroupPayloadSchema } from "@/lib/item-groups/validations"
 import { NextRequest } from "next/server"
 import z from "zod"
 
@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params
-  return proxyToBackend(req, backendRoutes.itemGroups.bySlug(slug))
+  return proxyToBackend(backendRoutes.itemGroups.bySlug(slug))
 }
 
 export async function PATCH(
@@ -24,7 +24,7 @@ export async function PATCH(
     return Response.json(z.flattenError(parsed.error), { status: 400 })
   }
 
-  return proxyToBackend(req, backendRoutes.itemGroups.bySlug(slug), {
+  return proxyToBackend(backendRoutes.itemGroups.bySlug(slug), {
     method: "PATCH",
     body: parsed.data,
   })
@@ -35,7 +35,7 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params
-  return proxyToBackend(req, backendRoutes.itemGroups.bySlug(slug), {
+  return proxyToBackend(backendRoutes.itemGroups.bySlug(slug), {
     method: "DELETE",
   })
 }

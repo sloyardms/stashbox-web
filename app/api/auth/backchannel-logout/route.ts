@@ -1,5 +1,5 @@
 import { jwtVerify, createRemoteJWKSet } from "jose"
-import { revokeSession } from "@/lib/session-revocation"
+import { revokeSession } from "@/lib/auth/session-revocation"
 
 const JWKS = createRemoteJWKSet(
   new URL(

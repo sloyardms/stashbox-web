@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { itemGroupIcons } from "@/lib/item-group-icons"
+import { itemGroupIcons } from "@/lib/item-groups/item-group-icons"
 
 export function useIconPicker() {
   const [search, setSearch] = useState("")

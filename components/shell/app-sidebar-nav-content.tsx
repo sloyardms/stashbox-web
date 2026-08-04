@@ -20,7 +20,7 @@ import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useItemGroups } from "@/hooks/item-groups/useItemGroups"
 import { SortableGroupItem } from "@/components/item-groups/sortable-group-item"
-import { routes } from "@/lib/routes"
+import { routes } from "@/lib/routes/routes"
 
 export function AppSidebarNavContent() {
   const router = useRouter()

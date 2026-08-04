@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useSession } from "next-auth/react"
-import { logout } from "@/lib/logout"
+import { logout } from "@/lib/auth/logout"
 
 export function AuthSessionHandler() {
   const { data: session } = useSession()

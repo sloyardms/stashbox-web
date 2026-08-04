@@ -13,7 +13,7 @@ import {
 
 import { Link2, ImageIcon, FileText, Tags } from "lucide-react"
 import { signIn } from "next-auth/react"
-import { apiRoutes } from "@/lib/api/api-routes"
+import { apiRoutes } from "@/lib/routes/api-routes"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)

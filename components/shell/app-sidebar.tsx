@@ -1,4 +1,4 @@
-import { SIDEBAR_WIDTH } from "@/lib/layout-constants"
+import { SIDEBAR_WIDTH } from "@/lib/constants/layout-constants"
 import { AppSidebarNavContent } from "./app-sidebar-nav-content"
 import packageJson from "@/package.json"
 

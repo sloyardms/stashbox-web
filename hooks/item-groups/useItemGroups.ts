@@ -1,6 +1,6 @@
 import type { UUID } from "@/types/common/UUID"
 import type { ItemGroupSummary } from "@/types/ItemGroup"
-import { apiRoutes } from "@/lib/api/api-routes"
+import { apiRoutes } from "@/lib/routes/api-routes"
 import useSWR from "swr"
 import { ApiError, fetcher, putJsonVoid } from "@/lib/fetcher"
 

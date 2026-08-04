@@ -1,6 +1,6 @@
 "use client"
 
-import { useUser } from "@/hooks/useUser"
+import { useUser } from "@/hooks/user/useUser"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useConfirm } from "@/components/providers/confirm-provider"

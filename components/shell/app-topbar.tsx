@@ -4,10 +4,10 @@ import { Menu, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { UserMenu } from "./user-menu"
-import { routes } from "@/lib/routes"
+import { routes } from "@/lib/routes/routes"
 import Link from "next/link"
 import Image from "next/image"
-import { SIDEBAR_WIDTH } from "@/lib/layout-constants"
+import { SIDEBAR_WIDTH } from "@/lib/constants/layout-constants"
 
 type AppTopbarProps = {
   onMenuClick?: () => void

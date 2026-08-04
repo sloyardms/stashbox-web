@@ -21,7 +21,7 @@ import {
   itemGroupFormSchema,
   defaultItemGroupFormValues,
   type ItemGroupFormValues,
-} from "@/lib/validations/item-groups"
+} from "@/lib/item-groups/validations"
 import { IconPicker } from "../icon-picker/icon-picker"
 import { ApiError } from "@/lib/fetcher"
 import { translateFieldError } from "@/lib/validations/field-error-messages"

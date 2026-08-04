@@ -10,7 +10,6 @@ interface ProxyOptions {
 }
 
 export async function proxyToBackend(
-  req: NextRequest,
   path: string,
   { method = "GET", body, searchParams }: ProxyOptions = {},
 ) {

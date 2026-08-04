@@ -3,7 +3,7 @@ import NextAuth from "next-auth"
 import { JWT } from "next-auth/jwt"
 import Keycloak from "next-auth/providers/keycloak"
 import { isSessionRevoked } from "./session-revocation"
-import { SESSION_MAX_AGE_SECONDS } from "./constants/auth-constants"
+import { SESSION_MAX_AGE_SECONDS } from "./constants"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [

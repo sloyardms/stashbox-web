@@ -1,4 +1,4 @@
-import { THEME_COOKIE_NAME } from "@/lib/constants/auth-constants"
+import { THEME_COOKIE_NAME } from "@/lib/constants/cookie-constants"
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
