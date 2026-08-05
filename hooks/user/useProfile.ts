@@ -9,11 +9,11 @@ export interface Profile {
 }
 
 export function useProfile() {
-  const { data, error, isLoading } = useSWR<Profile, ApiError>(
+  const { data, error, isLoading, isValidating} = useSWR<Profile, ApiError>(
     apiRoutes.auth.userinfo,
     fetcher,
   )
-  return { profile: data, isLoading, error }
+  return { profile: data, isLoading, isValidating, error }
 }
 
 export function revalidateProfile() {

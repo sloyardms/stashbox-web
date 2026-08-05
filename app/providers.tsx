@@ -21,7 +21,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           return !(err instanceof ApiError && [401, 403].includes(err.status))
         },
         onError: (err) => {
-          if (err instanceof ApiError && err.status !== 401) {
+          if (err instanceof ApiError && [401, 403].includes(err.status)) {
             router.push(routes.login)
           }
         },
