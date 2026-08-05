@@ -4,21 +4,32 @@ import { useUser } from "@/hooks/user/useUser"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useConfirm } from "@/components/providers/confirm-provider"
+import { useDeleteUser } from "@/hooks/user/useDeleteUser"
+import { logout } from "@/lib/auth/logout"
+import { toast } from "sonner"
+import { toastErrorMessage } from "@/lib/toast-error"
 
 export default function AccountPage() {
   const { user, isLoading } = useUser()
+  const { selfDelete } = useDeleteUser()
   const confirm = useConfirm()
 
   const handleDelete = async () => {
     const confirmed = await confirm({
       title: "Delete account",
       description:
-        "This permanently deletes your account and everything in it. This can't be undone.",
+        "This will permanently delete your account and all associated data, including your stash items, tags, groups, and notes. This action cannot be undone.",
       confirmLabel: "Delete account",
       variant: "destructive",
     })
-    if (confirmed) {
-      // call your delete-account endpoint here
+    
+    if(!confirmed) return
+
+    try{
+      await selfDelete()
+      await logout()
+    } catch (err) {
+      toast.error(toastErrorMessage(err, "Failed to delete account"))
     }
   }
 

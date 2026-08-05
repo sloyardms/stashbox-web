@@ -5,3 +5,9 @@ import { NextRequest } from "next/server"
 export async function GET(req: NextRequest) {
   return proxyToBackend(backendRoutes.user.me)
 }
+
+export async function DELETE(req: NextRequest) {
+  return proxyToBackend(backendRoutes.user.me, {
+    method: "DELETE",
+  })
+}
