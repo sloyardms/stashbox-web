@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server"
 import { requireAccessToken } from "./bff-auth"
 
 const BACKEND_URL = process.env.BACKEND_URL
@@ -18,14 +17,15 @@ export async function proxyToBackend(
 
   const qs = searchParams?.toString()
   const url = `${BACKEND_URL}${path}${qs ? `?${qs}` : ""}`
+  const isFormData = body instanceof FormData
 
   const response = await fetch(url, {
     method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      ...(body ? { "Content-Type": "application/json" } : {}),
+      ...(body && !isFormData ? { "Content-Type": "application/json" } : {}),
     },
-    ...(body ? { body: JSON.stringify(body) } : {}),
+    ...(body ? { body: isFormData ? body : JSON.stringify(body) } : {}),
     cache: "no-store",
   })
 

@@ -1,10 +1,10 @@
 import useSWR from "swr"
 import { fetcher, ApiError } from "@/lib/fetcher"
-import type { ItemGroupDetail } from "@/types/ItemGroup"
+import type { ItemGroup } from "@/types/ItemGroup"
 import { apiRoutes } from "@/lib/routes/api-routes"
 
 export function useItemGroup(slug: string | undefined) {
-  const { data, error, isLoading, mutate } = useSWR<ItemGroupDetail, ApiError>(
+  const { data, error, isLoading, mutate } = useSWR<ItemGroup, ApiError>(
     slug ? apiRoutes.itemGroups.bySlug(slug) : null,
     fetcher,
   )

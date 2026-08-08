@@ -1,13 +1,13 @@
 import { mutate } from "swr"
 import { postJson } from "@/lib/fetcher"
-import type { ItemGroupDetail, ItemGroupSummary } from "@/types/ItemGroup"
+import type { ItemGroup, ItemGroupSummary } from "@/types/ItemGroup"
 import type { CreateItemGroupPayload } from "@/lib/item-groups/validations"
 import { apiRoutes } from "@/lib/routes/api-routes"
 
 export function useCreateItemGroup() {
   async function createItemGroup(
     payload: CreateItemGroupPayload,
-  ): Promise<ItemGroupDetail> {
+  ): Promise<ItemGroup> {
     const key = apiRoutes.itemGroups.collection
 
     const tempId = crypto.randomUUID()
@@ -19,9 +19,9 @@ export function useCreateItemGroup() {
       itemCount: 0,
     } as ItemGroupSummary
 
-    let created!: ItemGroupDetail
+    let created!: ItemGroup
 
-    function toSummary(detail: ItemGroupDetail): ItemGroupSummary {
+    function toSummary(detail: ItemGroup): ItemGroupSummary {
       return {
         id: detail.id,
         slug: detail.slug,
@@ -34,7 +34,7 @@ export function useCreateItemGroup() {
     await mutate(
       key,
       async (groups: ItemGroupSummary[] | undefined) => {
-        created = await postJson<ItemGroupDetail>(key, payload)
+        created = await postJson<ItemGroup>(key, payload)
         return [...(groups ?? []), toSummary(created)]
       },
       {

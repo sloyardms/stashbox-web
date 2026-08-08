@@ -47,7 +47,7 @@ export function ItemGroupForm({
 
   const form = useForm<ItemGroupFormValues>({
     resolver: zodResolver(itemGroupFormSchema),
-    defaultValues, // was hardcoded to defaultItemGroupFormValues before
+    defaultValues,
     mode: "onBlur",
   })
 

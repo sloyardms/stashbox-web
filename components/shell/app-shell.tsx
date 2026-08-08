@@ -18,7 +18,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           onOpenChange={setMobileSidebarOpen}
         />
         <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-7xl px-6 py-6">{children}</div>
+          <div className="mx-auto max-w-7xl px-3 py-3">{children}</div>
         </main>
       </div>
     </div>

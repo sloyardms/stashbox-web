@@ -1,6 +1,6 @@
 import { mutate } from "swr"
 import { patchJson } from "@/lib/fetcher"
-import type { ItemGroupDetail, ItemGroupSummary } from "@/types/ItemGroup"
+import type { ItemGroup, ItemGroupSummary } from "@/types/ItemGroup"
 import type { ItemGroupFormValues } from "@/lib/item-groups/validations"
 import { toItemGroupPayload } from "@/lib/item-groups/validations"
 import { apiRoutes } from "@/lib/routes/api-routes"
@@ -9,8 +9,8 @@ export function useUpdateItemGroup() {
   async function updateItemGroup(
     slug: string,
     values: ItemGroupFormValues,
-  ): Promise<ItemGroupDetail> {
-    const updated = await patchJson<ItemGroupDetail>(
+  ): Promise<ItemGroup> {
+    const updated = await patchJson<ItemGroup>(
       apiRoutes.itemGroups.bySlug(slug),
       toItemGroupPayload(values),
     )

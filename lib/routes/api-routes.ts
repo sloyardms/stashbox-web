@@ -9,6 +9,13 @@ export const apiRoutes = {
     bySlug: (slug: string) => `/api/item-groups/${slug}`,
     reorder: "/api/item-groups/reorder",
     setDefault: (slug: string) => `/api/item-groups/${slug}/default`,
+    stashItems: {
+      collection: (groupSlug: string) =>
+        `/api/item-groups/${groupSlug}/stash-items`,
+    },
+    tags: {
+      search: (groupSlug: string) => `/api/item-groups/${groupSlug}/tags`,
+    },
   },
   user: {
     me: "/api/me",

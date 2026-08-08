@@ -22,9 +22,9 @@ export interface ItemGroupSummary {
 }
 
 /**
- * GET by slug, POST, PATCH — mirrors ItemGroupDetailResponse
+ * GET by slug, POST, PATCH — mirrors ItemGroupDetail
  */
-export interface ItemGroupDetail {
+export interface ItemGroup {
   id: UUID
   name: string
   slug: string

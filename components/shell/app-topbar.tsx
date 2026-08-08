@@ -7,7 +7,7 @@ import { UserMenu } from "./user-menu"
 import { routes } from "@/lib/routes/routes"
 import Link from "next/link"
 import Image from "next/image"
-import { SIDEBAR_WIDTH } from "@/lib/constants/layout-constants"
+import { SIDEBAR_WIDTH, TOPBAR_HEIGHT } from "@/lib/constants/layout-constants"
 
 type AppTopbarProps = {
   onMenuClick?: () => void
@@ -17,7 +17,7 @@ type AppTopbarProps = {
 export function AppTopbar({ onMenuClick, showSearch = true }: AppTopbarProps) {
   return (
     <header className="flex flex-col border-b">
-      <div className="flex h-16 items-center">
+      <div className={`flex ${TOPBAR_HEIGHT} items-center`}>
         <Button
           onClick={onMenuClick}
           variant="ghost"

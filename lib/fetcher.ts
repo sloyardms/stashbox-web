@@ -55,6 +55,21 @@ export async function postJson<T>(url: string, body: unknown): Promise<T> {
   return res.json()
 }
 
+/**
+ * MultiPart FormData POST request, used for file uploads. The body is a FormData object.
+ */
+export async function postFormData<T>(
+  url: string,
+  formData: FormData,
+): Promise<T> {
+  const res = await fetch(url, {
+    method: "POST",
+    body: formData,
+  })
+  if (!res.ok) throw await toApiError(res)
+  return res.json()
+}
+
 export async function patchJson<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
     method: "PATCH",
